@@ -1,0 +1,55 @@
+@layout('layouts.main')
+
+@section('content')
+
+@set('mainTitle', 'Hello Adonis')
+<div class="">
+    @if(flashMessage('message'))
+        <span>{{ flashMessage('message') }}</span>
+    @endif
+</div>
+<div style="display: flex;">
+    <div style="width: 50%;">
+        <table>
+            <tr>
+                <th>title</th>
+                <th>description</th>
+                <th>Edit Action</th>
+                <th>Delete Action</th>
+            </tr>
+            @each(post in posts)
+            <tr>
+                <td>
+                    {{ post.title }}
+                </td>
+                <td>
+                    {{ post.description }}
+                </td>
+                <td>
+                    <a href="/edit/{{ post.id }}">Edit</a>
+                </td>
+                <td>
+                    <a href="/delete/{{ post.id }}">Delete</a>
+                </td>
+            </tr>
+            @endeach
+        </table>
+    </div>
+
+    <div style="width: 50%;">
+        <form class="" action="{{ route(formURL.name, formURL.params) }}" method="post">
+            {{ csrfField() }}
+            <div class="">
+                <input type="text" name="title" value="{{ (selectedPost) ? selectedPost.title : '' }}">
+            </div>
+            <div class="">
+                <input type="text" name="description" value="{{ (selectedPost) ? selectedPost.description : '' }}">
+            </div>
+            <div class="">
+                <input type="submit" value="Save">
+            </div>
+        </form>
+    </div>
+</div>
+
+@endsection
